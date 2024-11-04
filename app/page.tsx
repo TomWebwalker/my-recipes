@@ -1,6 +1,10 @@
+import SearchRecipeForm from "@/components/layout/search-recipe-form";
+
 export default function Home() {
-    return (
-        // TODO: introduce search form
-        <h1>Home</h1>
-    );
+  return (
+    <>
+      <SearchRecipeForm />
+      <h1>Home</h1>
+    </>
+  );
 }
