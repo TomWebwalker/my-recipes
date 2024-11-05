@@ -1,3 +1,5 @@
+import { db } from "@/db";
+
 export default async function RecipesPage({
   searchParams,
 }: {
@@ -5,6 +7,18 @@ export default async function RecipesPage({
 }) {
   const search = (await searchParams).search;
   // TODO: display list of recipes
+  const recipes = await db.query.recipes.findMany();
 
-  return <div>Recipes {search}</div>;
+  const recipeItems = recipes.map((recipe) => (
+    <li key={recipe.id}>
+      <a href={`/recipes/${recipe.id}`}>{recipe.title}</a>
+    </li>
+  ));
+
+  return (
+    <>
+      <div>Recipes {search}</div>
+      <ul>{recipeItems}</ul>
+    </>
+  );
 }
