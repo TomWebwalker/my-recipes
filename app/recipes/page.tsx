@@ -1,4 +1,5 @@
 import { db } from "@/db";
+import { Recipe } from "@/db/schema";
 
 export default async function RecipesPage({
   searchParams,
@@ -6,8 +7,15 @@ export default async function RecipesPage({
   searchParams: Promise<{ [_: string]: string }>;
 }) {
   const search = (await searchParams).search;
+  let recipes: Recipe[] = [];
+  if (search) {
+    recipes = await db.query.recipes.findMany({
+      where: ({ title }, { like }) => like(title, `%${search}%`),
+    });
+  } else {
+    recipes = await db.query.recipes.findMany();
+  }
   // TODO: display list of recipes
-  const recipes = await db.query.recipes.findMany();
 
   const recipeItems = recipes.map((recipe) => (
     <li key={recipe.id}>
