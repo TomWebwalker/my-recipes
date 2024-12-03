@@ -1,32 +1,26 @@
+import RecipeCard from "@/app/recipes/components/recipe-card";
 import { db } from "@/db";
-import { Recipe } from "@/db/schema";
+import RecipePageToolbar from "./components/recipe-page-toolbar";
+import { getRecipes } from "./utils/get-recipe";
+
 
 export default async function RecipesPage({
-  searchParams,
+  searchParams: { search },
 }: {
-  searchParams: Promise<{ [_: string]: string }>;
+  searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const search = (await searchParams).search;
-  let recipes: Recipe[] = [];
-  if (search) {
-    recipes = await db.query.recipes.findMany({
-      where: ({ title }, { like }) => like(title, `%${search}%`),
-    });
-  } else {
-    recipes = await db.query.recipes.findMany();
-  }
-  // TODO: display list of recipes
-
-  const recipeItems = recipes.map((recipe) => (
-    <li key={recipe.id}>
-      <a href={`/recipes/${recipe.id}`}>{recipe.title}</a>
-    </li>
-  ));
+  const recipes = await getRecipes(search as string);
+  const categories = await db.query.recipeCategories.findMany();
 
   return (
     <>
-      <div>Recipes {search}</div>
-      <ul>{recipeItems}</ul>
+      <RecipePageToolbar categories={categories} />
+      <div>Recipes</div>
+      <div className="grid grid-cols-3 gap-4">
+        {recipes.map((recipe) => (
+          <RecipeCard key={recipe.id} recipe={recipe} />
+        ))}
+      </div>
     </>
   );
 }
