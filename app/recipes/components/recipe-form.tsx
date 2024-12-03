@@ -20,7 +20,7 @@ import { useFormState } from "react-dom";
 
 export default function RecipeForm({ categories, onSuccess }: { categories: RecipeCategory[], onSuccess: () => void }) {
   const [state, formAction] = useFormState(
-    (prevState: any, formData: FormData) => createRecipe(formData, prevState),
+    (prevState: { success: boolean } | undefined, formData: FormData) => createRecipe(formData, prevState),
     { success: false }
   );
 

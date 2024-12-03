@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 import { writeFile } from "node:fs/promises";
 import path from "node:path";
 
-export default async function createRecipe(formData: FormData, { success }: { success: boolean }) {
+export default async function createRecipe(formData: FormData, state: { success: boolean } | undefined) {
   const title = formData.get("title");
   const description = formData.get("description");
   const photo = formData.get("photo") as File;
