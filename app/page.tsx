@@ -1,10 +1,12 @@
-import SearchRecipeForm from "@/components/layout/search-recipe-form";
+import { db } from "@/db";
+import { recipes } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
-export default function Home() {
+export default async function Home() {
+  const recipeList = await db.query.recipes.findMany({ where: eq(recipes.promoted, true) });
   return (
     <>
-      <SearchRecipeForm />
-      <h1>Home</h1>
+
     </>
   );
 }

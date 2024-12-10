@@ -1,5 +1,6 @@
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
+import AuthButton from "./auth-button";
 
 export default function Navigation() {
   return (
@@ -21,7 +22,9 @@ export default function Navigation() {
           Authors
         </Link>
       </div>
-      <div className={"flex-1 flex justify-end"}>{/*TODO: user menu*/}</div>
+      <div className={"flex-1 flex justify-end"}>
+        <AuthButton />
+      </div>
     </nav>
   );
 }
