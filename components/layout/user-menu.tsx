@@ -4,6 +4,7 @@ import { LogOut } from "lucide-react";
 import { signOut } from 'next-auth/react';
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import UserBadge from "./user-badge";
 
 
 export default function UserMenu({
@@ -17,16 +18,7 @@ export default function UserMenu({
 }) {
     return <DropdownMenu>
         <DropdownMenuTrigger asChild>
-            <div className="flex items-center gap-2">
-                <Avatar className="h-8 w-8 rounded-lg">
-                    <AvatarImage src={user.avatar} alt={user.name} />
-                    <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-                </Avatar>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">{user.name}</span>
-                    <span className="truncate text-xs">{user.email}</span>
-                </div>
-            </div>
+            <UserBadge user={user} />
         </DropdownMenuTrigger>
         <DropdownMenuContent
             className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
